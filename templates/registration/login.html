@@ -106,7 +106,7 @@
         </div>
      <div>
       <input type="submit" value="login" />
-      <input type="hidden" name="next" value="{{ next }}" />
+      <input type="hidden" name="next" value="{% url 'home' %}" />
     </div>
   </form>
   {% comment %} <p><a href="{% url 'password_reset' %}">Lost password?</a></p> {% endcomment %}
