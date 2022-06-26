@@ -1,14 +1,18 @@
+from urllib.request import Request
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, render
+from django.contrib.auth.decorators import login_required
+
 
 from login.forms import SignUpForm
 
+
 # Create your views here.
+@login_required
 def index(request):
-    
-    return HttpResponse("asgdfasgd")
+    return render(request, 'workpee/index.html', {})
 
 
 def signup(request):
