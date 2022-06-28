@@ -4,10 +4,11 @@ from django.contrib import admin
 from login import views
 from django.conf import settings
 
-app_name = 'login'
+app_name = 'acc'
 
 urlpatterns = [
     path('', views.index, name='home'),
+    path('login/', views.login_request, name="login"),
     re_path('signup/', views.signup, name='signup'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

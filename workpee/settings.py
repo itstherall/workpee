@@ -39,8 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'login.apps.LoginConfig'
+    'login.apps.LoginConfig',
+    'crispy_forms',
+
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -111,7 +114,8 @@ LOGOUT_REDIRECT_URL = '/login'
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static', ]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

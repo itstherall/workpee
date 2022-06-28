@@ -1,32 +1,53 @@
-from urllib.request import Request
-from django.http import HttpResponse
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 from django.shortcuts import render, redirect, render
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, authenticate
 
-
-from login.forms import SignUpForm
+from login.forms import NewUserForm
 
 
 # Create your views here.
-@login_required
+
 def index(request):
-    return render(request, 'workpee/index.html', {})
+    if request.user.is_authenticated:
+        usuario = request.user
+    else:
+        usuario = ''
+    return render(request, 'workpee/index.html', {'usuario': usuario})
 
 
 def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
+    if request.method == "POST":
+        form = NewUserForm(request.POST)
         if form.is_valid():
             user = form.save()
-            user.refresh_from_db()  # load the profile instance created by the signal
-            user.profile.birth_date = form.cleaned_data.get('birth_date')
-            user.save()
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            return redirect('home')
+            messages.success(request, "Registration successful.")
+            return redirect("acc:home")
+        else:
+            messages.error(
+                request, "Unsuccessful registration. Invalid information.")
     else:
-        form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
+        form = NewUserForm()
+        return render(request=request, template_name="signup.html", context={"register_form": form})
+
+
+def login_request(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                return redirect("acc:home")
+            else:
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
+    form = AuthenticationForm()
+    return render(request=request, template_name="registration/login.html", context={"login_form": form})
