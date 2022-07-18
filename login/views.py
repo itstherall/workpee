@@ -1,12 +1,10 @@
-from django.contrib.auth import login
-from django.shortcuts import render, redirect, render
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate
-
 from login.forms import NewUserForm
 
+from login.models import Produto
 
 # Create your views here.
 
@@ -51,3 +49,8 @@ def login_request(request):
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
     return render(request=request, template_name="registration/login.html", context={"login_form": form})
+
+
+def perfil(request):
+    produtos = Produto.objects.all()
+    return render(request, 'workpee/perfil.html', {'produtos': produtos})

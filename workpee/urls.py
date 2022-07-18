@@ -10,7 +10,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('login.urls')),
     path('logout/', auth_views.LogoutView.as_view(), name="logout"),
+    
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
+# (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 
 urlpatterns += staticfiles_urlpatterns()

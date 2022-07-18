@@ -1,11 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-
-from django.contrib.auth.models import User
-from django.db import models
 
 
 class Account(models.Model):
@@ -15,3 +9,14 @@ class Account(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Produto(models.Model):
+    nome = models.CharField(max_length=255, blank=True, null=True, default='')
+    preco = models.FloatField()
+    descricao = models.TextField()
+    imagem = models.FileField(upload_to='produtos/%Y/%m/%d/%H/%M')
+    # usuario = models.ForeignKey(User, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.nome
