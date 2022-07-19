@@ -33,7 +33,9 @@
                 {% endif %}
         <ul class="nav justify-content-end">
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'acc:perfil'%}">Perfil</a>
+                {% if usuario %}
+                <a class="nav-link" href="{% url 'acc:perfil' usuario.id %}">Perfil</a>
+                {% endif %}
             </li>
             <li>
                 {% if user.is_authenticated %}

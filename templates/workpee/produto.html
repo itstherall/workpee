@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container mt-2">
+    <div class="text-center">
+        <div class="jumbotron">
+            <h1 class="display-4">{{produto}}</h1>
+            <p class="lead">{{produto.descricao}}</p>
+        </div>
+        <div class="text-right">
+            <a href="{% url 'acc:perfil' user.id %}" class="btn btn-warning">Perfil do vendedor</a>
+        </div>
+        <div class="border mt-3 mb-5">
+            <img src="/media/{{ produto.imagem }}" alt="{{ produto.nome }}" class="w-25">
+        </div>
+    </div>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form|crispy}}
+        <button type="submit" class="btn btn-primary mb-2">Realizar pedido</button>
+    </form>
+
+</div>
+{% endblock content %}

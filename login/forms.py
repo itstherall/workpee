@@ -1,7 +1,9 @@
-from random import choice
+from dataclasses import fields
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
+from login.models import Loja, Pedido, Produto
 
 TYPE_USER = (
     ('VENDEDOR', "Vendedor",),
@@ -37,3 +39,37 @@ class NewUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class ProdutoForm(forms.ModelForm):
+    class Meta:
+        model = Produto
+        fields = ['nome', 'preco', 'descricao', 'imagem', 'loja']
+
+
+ProdutoFormSet = forms.inlineformset_factory(
+    Loja,
+    Produto,
+    extra=0,
+    validate_max=True,
+    min_num=1,
+    max_num=1,
+    form=ProdutoForm,
+)
+
+
+class PedidoForm(forms.ModelForm):
+    class Meta:
+        model = Pedido
+        fields = ['quantidade', 'customizacao']
+
+
+PedidoFormSet = forms.inlineformset_factory(
+    Produto,
+    Pedido,
+    extra=0,
+    validate_max=True,
+    min_num=1,
+    max_num=1,
+    form=PedidoForm,
+)

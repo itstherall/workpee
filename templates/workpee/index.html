@@ -18,6 +18,25 @@
     <p class="card-text">Com a Workpee você pode comprar suas peças da maneira que você desejar e falando diretamente com a pessoa que irá produzila. Uma plataforma simple de comunicação de ponta a ponta.</p>
     <p class="card-text"><small class="text-muted"></small></p>
   </div>
+  <div class="mt-5 mb-3 row">
+        {% for produto in produtos %}
+        <div class="col-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6>{{ produto.nome }}<span class="ml-2 badge badge-danger">novo</span></h6>
+                    <div class="text-secondary">R$: {{produto.preco}}</div>
+                </div>
+                <div class="card-body">
+                    <div class="rounded border"
+                        style="background-image: url(/media/{{ produto.imagem }}); width: 100%; height: 300px; background-size: cover; background-position: center;">
+                    </div>
+                    <a href="{% url 'acc:produto' produto.id %}" class="btn btn-primary mt-2 stretched-link">Ver
+                        mais</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
     
 </div>
